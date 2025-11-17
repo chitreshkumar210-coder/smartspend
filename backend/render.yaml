@@ -1,9 +1,9 @@
 services:
   - type: web
     name: mypockit-backend
-    env: java
-    buildCommand: ./mvnw clean package -DskipTests
-    startCommand: java -jar target/expenseTracker-0.0.1-SNAPSHOT.jar
+    env: docker
+    rootDir: backend
+    dockerfilePath: Dockerfile
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: production
