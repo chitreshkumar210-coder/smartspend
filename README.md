@@ -15,3 +15,4 @@ Access the application at [`http://localhost:5000/`](http://localhost:5000/).
 To get started create a new account using your email.
 
 
+"# smartspend" 
