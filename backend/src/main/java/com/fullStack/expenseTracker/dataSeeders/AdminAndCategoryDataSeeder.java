@@ -62,7 +62,19 @@ public class AdminAndCategoryDataSeeder {
 
         // Get or create roles
         Role adminRole = roleRepository.findByName(com.fullStack.expenseTracker.enums.ERole.ROLE_ADMIN)
-                .orElseThrow(() -> new RuntimeException("ROLE_ADMIN not found. Make sure RoleDataSeeder runs first."));
+                .orElseGet(() -> {
+                    System.out.println("ROLE_ADMIN not found. Creating it...");
+                    Role newRole = new Role(com.fullStack.expenseTracker.enums.ERole.ROLE_ADMIN);
+                    return roleRepository.save(newRole);
+                });
+        
+        // Ensure ROLE_USER exists as well
+        roleRepository.findByName(com.fullStack.expenseTracker.enums.ERole.ROLE_USER)
+                .orElseGet(() -> {
+                    System.out.println("ROLE_USER not found. Creating it...");
+                    Role newRole = new Role(com.fullStack.expenseTracker.enums.ERole.ROLE_USER);
+                    return roleRepository.save(newRole);
+                });
 
         // Create admin user
         User.UserBuilder adminBuilder = User.builder()
