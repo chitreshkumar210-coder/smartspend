@@ -23,31 +23,6 @@ function useProfileImage() {
         setIsLoading(false)
     }
 
-    const getProfileImage = useCallback(async () => {
-        setIsLoading(true)
-        await UserService.getProfileImg()
-            .then((response) => {
-                displayImage(response.data.response)
-            })
-            .catch((error) => {
-                toast.error("Failed to fetch profile image. Try again later")
-            })
-        setIsLoading(false)
-    }, [])
-
-    const removeProfileImage = async () => {
-        setIsLoading(true)
-        await UserService.removeProfileImg()
-            .then((response) => {
-                window.location.reload()
-            })
-            .catch((error) => {
-                toast.error("Failed to remove profile image. Try again later")
-            });
-        setIsLoading(false)
-    }
-
-
     function decodeBase64Image(base64Image) {
         const binaryString = window.atob(base64Image);
         const len = binaryString.length;
@@ -69,8 +44,7 @@ function useProfileImage() {
         return new Blob([bytes], { type });
     }
 
-
-    function displayImage(profileImgUrl) {
+    const displayImage = useCallback((profileImgUrl) => {
         if (profileImgUrl) {
             const imageBlob = decodeBase64Image(profileImgUrl);
             const imageUrl = URL.createObjectURL(imageBlob);
@@ -78,6 +52,30 @@ function useProfileImage() {
         } else {
             setProfileImage(null)
         }
+    }, [])
+
+    const getProfileImage = useCallback(async () => {
+        setIsLoading(true)
+        await UserService.getProfileImg()
+            .then((response) => {
+                displayImage(response.data.response)
+            })
+            .catch((error) => {
+                toast.error("Failed to fetch profile image. Try again later")
+            })
+        setIsLoading(false)
+    }, [displayImage])
+
+    const removeProfileImage = async () => {
+        setIsLoading(true)
+        await UserService.removeProfileImg()
+            .then((response) => {
+                window.location.reload()
+            })
+            .catch((error) => {
+                toast.error("Failed to remove profile image. Try again later")
+            });
+        setIsLoading(false)
     }
 
     useEffect(() => {
