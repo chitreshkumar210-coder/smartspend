@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import AdminService from "../../services/adminService";
 import '../../assets/styles/user.css'
 import Header from "../../components/utils/header";
@@ -21,7 +21,7 @@ function AdminTransactionsManagement() {
     } = usePagination()
 
 
-    const getTransactions = async () => {
+    const getTransactions = useCallback(async () => {
         await AdminService.getAllTransactions(pageNumber, pageSize, searchKey).then(
             (response) => {
                 if (response.data.status === 'SUCCESS') {
@@ -36,11 +36,11 @@ function AdminTransactionsManagement() {
             }
         )
         setIsFetching(false);
-    }
+    }, [pageNumber, pageSize, searchKey, setNoOfPages, setNoOfRecords])
 
     useEffect(() => {
         getTransactions();
-    }, [searchKey, pageNumber])
+    }, [searchKey, pageNumber, getTransactions])
 
     return (
         <Container activeNavId={4}>

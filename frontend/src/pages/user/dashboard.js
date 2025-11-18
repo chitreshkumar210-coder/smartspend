@@ -19,7 +19,7 @@ function Dashboard() {
         saveBudget, isLoading, isError] = useDashboard(currentMonth)
 
     const onMonthChange = (id) => {
-        const month = months.find(m => m.id == id)
+        const month = months.find(m => m.id === id)
         setMonth(month)
     }
 

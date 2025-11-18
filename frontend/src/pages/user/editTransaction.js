@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AuthService from '../../services/auth.service';
 import UserService from '../../services/userService';
@@ -30,7 +30,7 @@ function EditTransaction() {
 
 
     // to be edited transaction fetch
-    async function getTransaction() {
+    const getTransaction = useCallback(async () => {
         await UserService.get_single_transaction(transactionId).then(
             (response) => {
                 if (response.data.status === "SUCCESS") {
@@ -45,11 +45,11 @@ function EditTransaction() {
             }
         )
 
-    }
+    }, [transactionId])
 
     useEffect(() => {
         getTransaction()
-    }, [transactionId])
+    }, [transactionId, getTransaction])
 
     useEffect(() => {
         setTransactionType(transaction.transactionType)

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import AdminService from "../../services/adminService"
 import Header from "../../components/utils/header";
 import Loading from "../../components/utils/loading";
@@ -19,7 +19,7 @@ function AdminUsersManagement() {
         onNextClick, onPrevClick, setNoOfPages, setNoOfRecords, setSearchKey, getPageInfo
     } = usePagination()
 
-    const getUsers = async () => {
+    const getUsers = useCallback(async () => {
         await AdminService.getAllUsers(pageNumber, pageSize, searchKey).then(
             (response) => {
                 if (response.data.status === 'SUCCESS') {
@@ -35,7 +35,7 @@ function AdminUsersManagement() {
             }
         )
         setIsFetching(false)
-    }
+    }, [pageNumber, pageSize, searchKey, setNoOfPages, setNoOfRecords])
 
     const disableOrEnable = async (userId) => {
         await AdminService.disableOrEnableUser(userId).then(
@@ -54,7 +54,7 @@ function AdminUsersManagement() {
 
     useEffect(() => {
         getUsers();
-    }, [searchKey, pageNumber])
+    }, [searchKey, pageNumber, getUsers])
 
     return (
         <Container activeNavId={5}>

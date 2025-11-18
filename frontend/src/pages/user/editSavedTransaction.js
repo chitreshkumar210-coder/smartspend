@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import UserService from '../../services/userService';
 import TransactionTypeSelectWrapper from '../../components/userTransactions/transactionTypeSelectWrapper';
@@ -28,7 +28,7 @@ function EditSavedTransaction() {
 
 
     // to be edited transaction fetch
-    async function getTransaction() {
+    const getTransaction = useCallback(async () => {
         await UserService.getSavedTransactionById(transactionId).then(
             (response) => {
                 if (response.data.status === "SUCCESS") {
@@ -43,11 +43,11 @@ function EditSavedTransaction() {
             }
         )
 
-    }
+    }, [transactionId])
 
     useEffect(() => {
         getTransaction()
-    }, [transactionId])
+    }, [transactionId, getTransaction])
 
     useEffect(() => {
         setTransactionType(transaction.transactionTypeId)

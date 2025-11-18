@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import UserService from '../../services/userService';
 import AuthService from '../../services/auth.service';
 import Header from '../../components/utils/header';
-import Message from '../../components/utils/message';
 import Loading from '../../components/utils/loading';
 import Search from '../../components/utils/search';
 import usePagination from '../../hooks/usePagination';
@@ -28,7 +27,7 @@ function Transactions() {
         onNextClick, onPrevClick, setNoOfPages, setNoOfRecords, setSearchKey, getPageInfo
     } = usePagination('date')
 
-    const getTransactions = async () => {
+    const getTransactions = useCallback(async () => {
         await UserService.get_transactions(AuthService.getCurrentUser().email, pageNumber,
             pageSize, searchKey, sortField, sortDirec, transactionType).then(
                 (response) => {
@@ -44,16 +43,16 @@ function Transactions() {
                 }
             )
         setIsFetching(false)
-    }
+    }, [pageNumber, pageSize, searchKey, sortField, sortDirec, transactionType, setNoOfPages, setNoOfRecords])
 
     useEffect(() => {
         getTransactions()
-    }, [pageNumber, searchKey, transactionType, sortDirec, sortField])
+    }, [pageNumber, searchKey, transactionType, sortDirec, sortField, getTransactions])
 
     useEffect(() => {
         location.state && toast.success(location.state.text)
         location.state = null
-    }, [])
+    }, [location])
 
     // Fetch all transactions for export (respects current filters)
     const fetchAllTransactions = async () => {

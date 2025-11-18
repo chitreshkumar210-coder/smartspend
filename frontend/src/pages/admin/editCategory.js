@@ -15,7 +15,7 @@ function EditCategory() {
     useEffect(() => {
         const category = JSON.parse(localStorage.getItem('categoryToEdit'));
 
-        if (category.categoryId == categoryId) {
+        if (category.categoryId === categoryId) {
 
             reset({
                 cname: category.categoryName,

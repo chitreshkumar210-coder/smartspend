@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import UserService from '../../services/userService';
 import Header from '../../components/utils/header';
 import Loading from '../../components/utils/loading';
@@ -12,7 +12,7 @@ function SavedTransactions() {
     const [isLoading, setIsLoading] = useState(false);
     const location = useLocation();
 
-    const getTransactions = async () => {
+    const getTransactions = useCallback(async () => {
         setIsLoading(true)
         await UserService.getSavedTransactions().then(
             (response) => {
@@ -28,7 +28,7 @@ function SavedTransactions() {
             }
         )
         setIsLoading(false)
-    }
+    }, [])
 
     const saveTransaction = async (id) => {
         setIsLoading(true)
@@ -60,12 +60,12 @@ function SavedTransactions() {
 
     useEffect(() => {
         getTransactions()
-    }, [])
+    }, [getTransactions])
 
     useEffect(() => {
         location.state && toast.success(location.state.text)
         location.state = null
-    }, [])
+    }, [location])
 
     return (
         <Container activeNavId={11}>

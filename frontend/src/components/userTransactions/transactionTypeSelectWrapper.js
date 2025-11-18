@@ -5,7 +5,7 @@ function TransactionTypeSelectWrapper({transactionTypes, setTransactionType, act
                 return (
                     <div 
                         key={type.id} 
-                        className={activeTransactionType==type.id ? 'active' : ''} 
+                        className={activeTransactionType===type.id ? 'active' : ''} 
                         onClick={()=> setTransactionType(type.id)}
                     >
                         {type.name}

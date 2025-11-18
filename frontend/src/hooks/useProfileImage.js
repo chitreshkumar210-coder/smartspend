@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import AuthService from "../services/auth.service";
 import UserService from "../services/userService";
 import toast from "react-hot-toast";
@@ -23,7 +23,7 @@ function useProfileImage() {
         setIsLoading(false)
     }
 
-    const getProfileImage = async () => {
+    const getProfileImage = useCallback(async () => {
         setIsLoading(true)
         await UserService.getProfileImg()
             .then((response) => {
@@ -33,7 +33,7 @@ function useProfileImage() {
                 toast.error("Failed to fetch profile image. Try again later")
             })
         setIsLoading(false)
-    }
+    }, [])
 
     const removeProfileImage = async () => {
         setIsLoading(true)
@@ -82,7 +82,7 @@ function useProfileImage() {
 
     useEffect(() => {
         getProfileImage()
-    }, [])
+    }, [getProfileImage])
 
 
     return [profileImg, isLoading, uploadProfileImage, removeProfileImage];

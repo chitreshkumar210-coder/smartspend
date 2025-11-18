@@ -15,7 +15,7 @@ function Login() {
         }else if (AuthService.getCurrentUser() && AuthService.getCurrentUser().roles.includes("ROLE_ADMIN")) {
             navigate("/admin/transactions");
         }
-    }, [])
+    }, [navigate])
 
 
     const {register, handleSubmit,formState} = useForm();
