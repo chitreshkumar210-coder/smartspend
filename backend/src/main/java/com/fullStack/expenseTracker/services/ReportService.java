@@ -14,4 +14,6 @@ public interface ReportService {
 
     ResponseEntity<ApiResponseDto<?>> getMonthlySummaryByUser(String email);
 
+    ResponseEntity<ApiResponseDto<?>> getCategoryBreakdownByUserAndMonth(String email, int year, int month);
+
 }

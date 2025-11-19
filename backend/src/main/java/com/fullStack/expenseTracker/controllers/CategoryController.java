@@ -8,7 +8,7 @@ import com.fullStack.expenseTracker.exceptions.CategoryNotFoundException;
 import com.fullStack.expenseTracker.exceptions.CategoryServiceLogicException;
 import com.fullStack.expenseTracker.exceptions.TransactionTypeNotFoundException;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/mypockit/category")
+@RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping("/getAll")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")

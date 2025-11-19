@@ -68,4 +68,15 @@ public class ReportServiceImpl implements ReportService {
                 )
         );
     }
+
+    @Override
+    public ResponseEntity<ApiResponseDto<?>> getCategoryBreakdownByUserAndMonth(String email, int year, int month) {
+        var result = transactionRepository.findCategoryBreakdownByUserAndMonth(email, year, month);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ApiResponseDto<>(ApiResponseStatus.SUCCESS,
+                        HttpStatus.OK,
+                        result
+                )
+        );
+    }
 }
